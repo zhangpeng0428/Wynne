@@ -2,7 +2,6 @@ package com.mvc.model;
 
 
 import com.jfinal.plugin.activerecord.Model;
-import com.jfinal.plugin.activerecord.Page;
 
 /**  
  * <一句话简述本类作用> 
@@ -20,6 +19,7 @@ public class User extends Model<User>{
 		String sql = "select * from user where name=? and pwd=?" ;
 		return User.dao.findFirst(sql, username,userpassword);
 	}
+	
 //	
 //	public Page<User> paginate(int pageNumber, int pageSize) {
 //		return paginate(pageNumber,pageSize,"select *","from sys_user order by order_id asc");

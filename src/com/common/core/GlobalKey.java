@@ -1,10 +1,11 @@
 package com.common.core;
-//鏁翠釜绯荤粺涓敤鏉ュ畾涔夌殑閿?
+//整个系统中用来定义的键
 public class GlobalKey {
-	//褰撳墠鐧婚檰鐢ㄦ埛
+	//当前登陆用户
 	public static String CurrentUser="CurrentUser";
-	//涓虹┖鐨凣UID
+	//为空的GUID
 	public static String GUIDEmpty="00000000-0000-0000-0000-000000000000";
-	//鏂囦欢鏄惁涓婁紶瀹屾垚
+	//文件是否上传完成
 	public static String FileIsLoaded="FileIsLoaded";
 }
+
