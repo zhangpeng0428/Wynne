@@ -6,7 +6,7 @@ import java.util.List;
 import com.common.utils.JsonUtil;
 import com.google.gson.reflect.TypeToken;
 import com.jfinal.core.Controller;
-import com.mvc.request.Req_Login;
+import com.mvc.request.Req_User_add;
 
 /**
  * 用途：controller基类，所有controller必须继承 说明：
@@ -49,6 +49,6 @@ public class BaseController extends Controller {
 	        json.append(line);
 	    }
 	    reader.close();
-	    return JsonUtil.fromJson(json.toString(), new TypeToken<List<Req_Login>>(){}.getType());
+	    return JsonUtil.fromJson(json.toString(), valueType);
 	}
 }

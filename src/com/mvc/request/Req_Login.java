@@ -2,25 +2,22 @@ package com.mvc.request;
 /**  
  * <一句话简述本类作用> 
  * @author 张鹏   
- * @version 创建时间：2016年11月15日 下午9:36:12  
+ * @version 创建时间：2016年11月22日 下午9:30:49  
  */
-public class Req_Login{
-	
-	//必传参数
-	private FinalData finalData;
+public class Req_Login {
 
-	//用户名
-	private String user;
+	public FinalData finalData;
 	
-	//密码
-	private String pwd;
+	public String user;
+	
+	public String pwd;
 
-	public String getUser() {
-		return user;
+	public FinalData getFinalData() {
+		return finalData;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setFinalData(FinalData finalData) {
+		this.finalData = finalData;
 	}
 
 	public String getPwd() {
@@ -31,11 +28,11 @@ public class Req_Login{
 		this.pwd = pwd;
 	}
 
-	public FinalData getFinalData() {
-		return finalData;
+	public String getUser() {
+		return user;
 	}
 
-	public void setFinalData(FinalData finalData) {
-		this.finalData = finalData;
+	public void setUser(String user) {
+		this.user = user;
 	}
 }

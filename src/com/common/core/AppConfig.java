@@ -1,6 +1,5 @@
 package com.common.core;
 
-
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -12,9 +11,12 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.render.ViewType;
 import com.mvc.controller.IndexController;
+import com.mvc.controller.MessageController;
 import com.mvc.controller.SystemController;
 import com.mvc.controller.UserController;
+import com.mvc.model.Message;
 import com.mvc.model.User;
+import com.mvc.model.Venue;
 
 public class AppConfig extends JFinalConfig {
 	
@@ -22,14 +24,15 @@ public class AppConfig extends JFinalConfig {
 		PropKit.use("config.properties");
 		me.setDevMode(true);
 //		me.setBaseViewPath("/WEB-INF/view");
-		me.setViewType(ViewType.JSP); 	
+//		me.setViewType(ViewType.JSP); 	
 	}
 
 	public void configRoute(Routes me) {
-		me.add("/", IndexController.class, "/");
-		me.add("/system",SystemController.class);   // 第三个参数省略时默认与第一个参数值相同，在此即为 "/system"
+//		me.add("/", IndexController.class, "/");
+//		me.add("/system",SystemController.class);   // 第三个参数省略时默认与第一个参数值相同，在此即为 "/system"
 		me.add("/user",UserController.class);
 		me.add("/venue",UserController.class);
+		me.add("/message",MessageController.class);
 	}
 
 	public void configPlugin(Plugins me) {
@@ -41,6 +44,8 @@ public class AppConfig extends JFinalConfig {
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
 		me.add(arp);
 		arp.addMapping("user","id", User.class);	// 映射sys_user 表到 User模型
+		arp.addMapping("venue","id", Venue.class);	// 映射venue 表到 Venue模型
+		arp.addMapping("message","id", Message.class);	// 映射message 表到 Message模型
 	}
 
 	public void configInterceptor(Interceptors me) {

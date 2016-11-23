@@ -10,7 +10,7 @@ public class FinalData {
 	
 	private String type;
 	
-	private Integer code;
+	private int code;
 
 	public String getMac() {
 		return mac;
@@ -28,11 +28,11 @@ public class FinalData {
 		this.type = type;
 	}
 
-	public Integer getCode() {
+	public int getCode() {
 		return code;
 	}
 
-	public void setCode(Integer code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 

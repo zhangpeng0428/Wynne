@@ -1,5 +1,7 @@
 package com.mvc.request;
 
+import java.util.List;
+
 import com.mvc.model.Dead;
 
 /**  
@@ -9,7 +11,7 @@ import com.mvc.model.Dead;
  * @author 张鹏   
  * @version 创建时间：2016年11月18日 下午9:42:46  
  */
-public class Req_Venue {
+public class Req_Venue_add {
 
 	//必传参数
 	private FinalData finalData;
@@ -22,7 +24,7 @@ public class Req_Venue {
 	//祭拜大厅风格Id
 	private String worshipId;
 	//逝者集合对象，参考文档Dead类
-	private Dead dead;
+	private List<Req_Dead> deads;
 
 	public FinalData getFinalData() {
 		return finalData;
@@ -64,12 +66,11 @@ public class Req_Venue {
 		this.worshipId = worshipId;
 	}
 
-	public Dead getDead() {
-		return dead;
+	public List<Req_Dead> getDeads() {
+		return deads;
 	}
 
-	public void setDead(Dead dead) {
-		this.dead = dead;
+	public void setDeads(List<Req_Dead> deads) {
+		this.deads = deads;
 	}
-	
 }

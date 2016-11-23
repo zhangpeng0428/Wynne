@@ -16,7 +16,7 @@ public class User extends Model<User>{
 	public static final User dao = new User();
 	
 	public User findLoginUser(String username, String userpassword) {
-		String sql = "select * from user where name=? and pwd=?" ;
+		String sql = "select * from user where user=? and pwd=?" ;
 		return User.dao.findFirst(sql, username,userpassword);
 	}
 	

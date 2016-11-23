@@ -1,9 +1,15 @@
 package com.mvc.controller;
 
+import java.util.List;
+
 import com.common.core.BaseController;
 import com.jfinal.kit.JsonKit;
+import com.mvc.model.Dead;
 import com.mvc.model.Venue;
-import com.mvc.request.Req_Venue;
+import com.mvc.request.Req_Dead;
+import com.mvc.request.Req_QueryAllVenue;
+import com.mvc.request.Req_Venue_add;
+import com.mvc.request.Req_Venue_update;
 import com.mvc.request.ReturnData;
 import com.mvc.service.VenueService;
 import com.mvc.service.impl.VenueServiceImpl;
@@ -24,23 +30,26 @@ public class VenueController  extends BaseController {
 	 */
 	public void add() throws Exception {
 		
-//		Req_Venue req_Venue = (Req_Venue) this.getRequestObject(Req_Venue.class); 
+		Req_Venue_add req_Venue = (Req_Venue_add) this.getRequestObject(Req_Venue_add.class); 
 		
 		Venue venue = new Venue();
-		venue.set("userId", getPara("userId"));
-		//场馆类型：1 个人，2双人 ，3 名人
-		venue.set("type", getPara("type"));
-		venue.set("grade", 0);
-		//大厅风格ID
-		venue.set("styleId", getPara("styleId"));
-		//祭拜大厅风格Id
-		venue.set("worshipId", getPara("worshipId"));
-		venue.set("money", 0);
-		venue.set("relationship", getPara("relationship"));
-		//详情
-		venue.set("descnbe", getPara("descnbe"));
-		venue.set("name", getPara("name"));
-		
+		venue.set("userId", req_Venue.getUserId());
+		venue.set("type", req_Venue.getType());
+		venue.set("styleId", req_Venue.getStyleId());
+		venue.set("worshipId", req_Venue.getWorshipId());
+		venue.save();
+		List<Req_Dead> deads = req_Venue.getDeads();
+		for (Req_Dead req_Dead : deads) {
+			Dead dead = new Dead();
+			dead.set("name", req_Dead.getName());
+			dead.set("sex", req_Dead.getSex());
+			dead.set("brithday", req_Dead.getBrithday());
+			dead.set("death", req_Dead.getDeath());
+			dead.set("tableId", req_Dead.getTableId());
+			dead.set("head", req_Dead.getHead());
+			dead.set("venueId", venue.get("id"));
+			dead.save();
+		}
 		ReturnData data = new ReturnData();
 		if (venueService.create(venue)) {
 			data.setCode(200);
@@ -54,30 +63,32 @@ public class VenueController  extends BaseController {
 	}
 	
 	/**
-	 * 编辑场馆
+	 * 更新资料
+	 * @throws Exception 
 	 * 
 	 */
-	public void edit() {
+	public void update() throws Exception {
 		
-//		Req_Venue req_Venue = this.getRequestObject(Req_Venue.class); 
+		Req_Venue_update req_Venue = (Req_Venue_update) this.getRequestObject(Req_Venue_update.class); 
 		
-		Venue venue = new Venue();
-		venue.set("userId", getPara("userId"));
-		//场馆类型：1 个人，2双人 ，3 名人
-		venue.set("type", getPara("type"));
-		venue.set("grade", 0);
-		//大厅风格ID
-		venue.set("styleId", getPara("styleId"));
-		//祭拜大厅风格Id
-		venue.set("worshipId", getPara("worshipId"));
-		venue.set("money", 0);
-		venue.set("relationship", getPara("relationship"));
-		//详情
-		venue.set("descnbe", getPara("descnbe"));
-		venue.set("name", getPara("name"));
-		
+		Venue venue = venueService.findById(String.valueOf(req_Venue.getId()));
+		venue.set("userId", req_Venue.getUserId());
+		venue.set("styleId", req_Venue.getStyleId());
+		venue.set("worshipId", req_Venue.getWorshipId());
+		venue.save();
+		List<Req_Dead> deads = req_Venue.getDeads();
+		for (Req_Dead req_Dead : deads) {
+			Dead dead = new Dead();
+			dead.set("name", req_Dead.getName());
+			dead.set("sex", req_Dead.getSex());
+			dead.set("brithday", req_Dead.getBrithday());
+			dead.set("death", req_Dead.getDeath());
+			dead.set("tableId", req_Dead.getTableId());
+			dead.set("head", req_Dead.getHead());
+			dead.set("venueId", venue.get("id"));
+		}
 		ReturnData data = new ReturnData();
-		if (venueService.update(venue)) {
+		if (venueService.create(venue)) {
 			data.setCode(200);
 			data.setMsg("场馆创建成功");
 			renderJson(JsonKit.toJson(data));
@@ -85,7 +96,7 @@ public class VenueController  extends BaseController {
 			data.setCode(201);
 			data.setMsg("场馆创建失败");
 			renderJson(JsonKit.toJson(data));
-		} 
+		}
 	}
 	
 	/**
@@ -102,5 +113,26 @@ public class VenueController  extends BaseController {
 //			data.setCode(201);
 //			data.setMsg("场馆创建失败");
 //			renderJson(JsonKit.toJson(data));
+	}
+	
+	/**
+	 * 用户所有纪念馆
+	 * @throws Exception 
+	 * 
+	 */
+	public void queryAll() throws Exception {
+		
+		Req_QueryAllVenue allVenue = this.getRequestObject(Req_QueryAllVenue.class); 
+		
+//		ReturnData data = new ReturnData();
+//		if (venueService.update(venue)) {
+//			data.setCode(200);
+//			data.setMsg("场馆创建成功");
+//			renderJson(JsonKit.toJson(data));
+//		}else{
+//			data.setCode(201);
+//			data.setMsg("场馆创建失败");
+//			renderJson(JsonKit.toJson(data));
+//		} 
 	}
 }

@@ -16,7 +16,7 @@ public class ReturnData {
 	
 	private String msg;
 	
-	private List<Object> data;
+	private Object data;
 
 	public Integer getCode() {
 		return code;
@@ -34,11 +34,11 @@ public class ReturnData {
 		this.msg = msg;
 	}
 
-	public List<Object> getData() {
+	public Object getData() {
 		return data;
 	}
 
-	public void setData(List<Object> data) {
+	public void setData(Object data) {
 		this.data = data;
 	}
 }

@@ -16,6 +16,7 @@ public class VenueServiceImpl implements VenueService {
 
 	@Override
 	public boolean create(Venue venue) {
+		venue.getInt("id");
 		return venue.save();
 	}
 

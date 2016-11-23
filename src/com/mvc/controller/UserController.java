@@ -1,17 +1,18 @@
 package com.mvc.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.common.core.BaseController;
 import com.jfinal.kit.JsonKit;
 import com.mvc.model.User;
 import com.mvc.request.Req_Login;
+import com.mvc.request.Req_User_add;
+import com.mvc.request.Req_User_update;
+import com.mvc.request.ReturnData;
 import com.mvc.service.UserService;
 import com.mvc.service.impl.UserServiceImpl;
 
 /**  
- * <一句话简述本类作用> 
+ * 用户登录
+ * 
  * @author 张鹏   
  * @version 创建时间：2016年11月15日 下午8:48:21  
  */
@@ -27,39 +28,25 @@ public class UserController extends BaseController {
 	 */
 	public void add() throws Exception {
 		
-		Req_Login login = (Req_Login) getRequestObject(Req_Login.class);
+		Req_User_add userAdd = (Req_User_add) getRequestObject(Req_User_add.class);
 		
 		User user = new User();
-//		user.set("type", login.getFinalData().getType());
-////		user.set("vipstarttime", getPara("vipstarttime"));
-////		user.set("vipendtime", getPara("vipendtime"));
-//		user.set("money", 0);
-////		user.set("head", getPara("head"));
-//		user.set("name", login.getUser());
-//		user.set("pwd", login.getPwd());
-//		user.set("email", getPara("email"));
-//		user.set("sex", getPara("sex"));
-//		user.set("mac", login.getFinalData().getMac());
+		user.set("type", userAdd.getFinalData().getType());
+		user.set("user", userAdd.getUser());
+		user.set("pwd", userAdd.getPwd());
+		user.set("mac", userAdd.getFinalData().getMac());
+		user.set("code", userAdd.getFinalData().getCode());
 		
-		user.set("type", getPara("type"));
-//		user.set("vipstarttime", getPara("vipstarttime"));
-//		user.set("vipendtime", getPara("vipendtime"));
-//		user.set("money", 0);
-//		user.set("head", getPara("head"));
-		user.set("name", getPara("name"));
-		user.set("pwd", getPara("pwd"));
-//		user.set("email", getPara("email"));
-//		user.set("sex", getPara("sex"));
-		user.set("mac", getPara("mac"));
-		user.set("version", getPara("code"));
-		
-		Map<String, Boolean> result = new HashMap<String, Boolean>();
-		if (userService.create(user)){
-			result.put("flag", true);
+		ReturnData data = new ReturnData();
+		if (userService.create(user)) {
+			data.setCode(200);
+			data.setMsg("注册成功！");
+			renderJson(JsonKit.toJson(data));
 		}else{
-			result.put("flag", false);
+			data.setCode(201);
+			data.setMsg("注册失败！");
+			renderJson(JsonKit.toJson(data));
 		}
-		renderJson(JsonKit.toJson(result));
 	}
 	
 	/**
@@ -68,51 +55,48 @@ public class UserController extends BaseController {
 	 * 
 	 */
 	public void edit() throws Exception {
-		Req_Login login = (Req_Login) getRequestObject(Req_Login.class);
+		Req_User_update user_update = (Req_User_update) getRequestObject(Req_User_update.class);
 
-		User user = new User();
-//		user.set("type", login.getFinalData().getType());
-//	//	user.set("vipstarttime", getPara("vipstarttime"));
-//	//	user.set("vipendtime", getPara("vipendtime"));
-//		user.set("money", 0);
-//	//	user.set("head", getPara("head"));
-//		user.set("name", login.getUser());
-//		user.set("pwd", login.getPwd());
-//		user.set("email", getPara("email"));
-//		user.set("sex", getPara("sex"));
-//		user.set("mac", login.getFinalData().getMac());
+		User user = userService.findById(user_update.getUserId());
 		
-		user.set("type", getPara("type"));
-	//	user.set("vipstarttime", getPara("vipstarttime"));
-	//	user.set("vipendtime", getPara("vipendtime"));
-	//	user.set("money", 0);
-	//	user.set("head", getPara("head"));
-		user.set("name", getPara("name"));
-		user.set("pwd", getPara("pwd"));
-	//	user.set("email", getPara("email"));
-	//	user.set("sex", getPara("sex"));
-		user.set("mac", getPara("mac"));
-		user.set("version", getPara("code"));
+		user.set("email", user_update.getEmail());
+		user.set("head", user_update.getHeadId());
+		user.set("sex", user_update.getSex());
+		user.set("name", user_update.getName());
 	
-		Map<String, Boolean> result = new HashMap<String, Boolean>();
-		if (userService.update(user)){
-			result.put("flag", true);
+		ReturnData data = new ReturnData();
+		if (userService.update(user)) {
+			data.setCode(200);
+			data.setMsg("编辑成功！");
+			renderJson(JsonKit.toJson(data));
 		}else{
-			result.put("flag", false);
+			data.setCode(201);
+			data.setMsg("编辑失败！");
+			renderJson(JsonKit.toJson(data));
 		}
-		renderJson(JsonKit.toJson(result));
 	}
 	
 	/**
 	 * 用户登录
+	 * @throws Exception 
 	 * 
 	 */
-	public void login() {
+	public void login() throws Exception {
 		
-		User user = User.dao.findLoginUser(getPara("name"), getPara("pwd"));
+		Req_Login req_Login = (Req_Login) getRequestObject(Req_Login.class);
 		
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("user", user);
-		renderJson(JsonKit.toJson(result));
+		User user = User.dao.findLoginUser(req_Login.getUser(), req_Login.getPwd());
+//		user.set("code", req_Login.getFinalData().getMac());
+//		userService.update(user);
+		ReturnData data = new ReturnData();
+		if (user != null) {
+			data.setCode(200);
+			data.setMsg("登陆成功");
+			renderJson(JsonKit.toJson(user));
+		}else{
+			data.setCode(201);
+			data.setMsg("登陆失败");
+			renderJson(JsonKit.toJson(user));
+		}
 	}
 }

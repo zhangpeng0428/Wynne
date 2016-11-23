@@ -13,7 +13,7 @@ public interface VenueService {
 
 	public Venue findById(String id);
 	public List<Venue> findByIds(String userids);
-	public boolean create(Venue user);
-	public boolean update(Venue user);
+	public boolean create(Venue venue);
+	public boolean update(Venue venue);
 	public int delete(String idValues);
 }
